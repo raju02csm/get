@@ -1,0 +1,10 @@
+from app.models.location import Location
+from app.utils.db import get_db
+
+def save_location(user_id, lat, lon):
+    db = get_db()
+    location = Location(user_id=user_id, latitude=lat, longitude=lon)
+    db.add(location)
+    db.commit()
+    db.refresh(location)
+    return {"status": "success", "location": location.id}

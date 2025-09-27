@@ -1,0 +1,8 @@
+from fastapi import APIRouter
+from app.services.tracker_service import save_location
+
+router = APIRouter()
+
+@router.post("/update")
+def update_location(user_id: str, lat: float, lon: float):
+    return save_location(user_id, lat, lon)

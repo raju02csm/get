@@ -1,0 +1,29 @@
+import { useState } from "react";
+
+function Tracker() {
+  const [location, setLocation] = useState(null);
+
+  const getLocation = () => {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const coords = {
+        lat: pos.coords.latitude,
+        lon: pos.coords.longitude
+      };
+      setLocation(coords);
+
+      // send to backend
+      fetch("http://localhost:8000/tracker/update?user_id=123&lat=" + coords.lat + "&lon=" + coords.lon, {
+        method: "POST"
+      });
+    });
+  };
+
+  return (
+    <div>
+      <button onClick={getLocation}>Update Location</button>
+      {location && <p>Lat: {location.lat}, Lon: {location.lon}</p>}
+    </div>
+  );
+}
+
+export default Tracker;
